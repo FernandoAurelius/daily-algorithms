@@ -1,0 +1,28 @@
+# C build artifacts
+*.o
+*.out
+*.exe
+
+# Java build artifacts
+*.class
+*.jar
+
+# Editor backup and swap files
+*~
+*.swp
+*.swo
+*.un~
+
+# IDE and editor folders
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Node modules (if any)
+node_modules/
