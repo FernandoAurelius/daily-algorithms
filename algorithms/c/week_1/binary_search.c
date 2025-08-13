@@ -32,6 +32,8 @@ int main() {
 		return 0; 
 	}
 	printf("\nFOUND! The sought element is at position %d, and was found in %d steps! xD", response.index, response.steps);
+
+	return 0;
 }
 
 struct SearchResult binary_search(int *haystack, int needle, int size) {

@@ -41,6 +41,8 @@ int main() {
 	print_arr(arr.data, arr.size);
 
 	free(arr.data);
+
+	return 0;
 }
 
 static int find_smallest(int *arr, int size) {
