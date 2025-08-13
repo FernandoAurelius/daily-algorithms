@@ -1,10 +1,5 @@
 #include <stdio.h>
-#include <stdlib.h>
-
-struct MaxWindowSum {
-	int sum;
-	int arr[];
-};
+#include <stddef.h>
 
 void get_max_window_sum(const int *arr, size_t size, size_t k);
 
@@ -29,58 +24,40 @@ int main() {
 
 void get_max_window_sum(const int *arr, size_t size, size_t k) {
 	if (arr == NULL || 1 > k || k > size) {
-		printf("Invalid parameters! Null array or invalid k");
+		printf("Invalid parameters! Null array or invalid subarray size.\n");
 		return;
 	}
 
-	// First we get the initial sum
-	struct MaxWindowSum *max_window_sum = malloc(sizeof(struct MaxWindowSum *) + k * sizeof(int));
-	if (!max_window_sum) {
-		printf("Error during memory allocation - Xd");
-		return;
-	}
-	max_window_sum->sum = 0;
-	for (size_t i = 0; i < k; i++) {
-		max_window_sum->sum += *(arr + i);
-		max_window_sum->arr[i] = *(arr + i);
-	}
-	printf("Initial sum: %d | Initial window: ", max_window_sum->sum);
-	for (size_t i = 0; i < k; i++) {
-		if (i == 0 && k == 1) {
-			printf("[%d]\n\n", max_window_sum->arr[i]);
-			break;
-		}
-
-		if (i == 0) {
-			printf("[%d,", max_window_sum->arr[i]);  
-		} else if (i != (k - 1) && i != 0) {
-			printf("%d,", max_window_sum->arr[i]);
-		} else {
-			printf("%d]\n\n", max_window_sum->arr[i]);
-		}
-	}
-
-	// Now, we apply the sliding window logic
+	// good practice to avoid overflow in big sums
+	long long sum = 0;
 	
-	// TODO: add subarray mapping here
-	for (size_t i = k; i < size; i++) {
-		printf("Subtraction to me made: (%d - %d) | Result sum: %d\n", max_window_sum->sum, *(arr + i - k), max_window_sum->sum - *(arr + i - k) + *(arr + i));
-		max_window_sum->sum = (max_window_sum->sum - *(arr + i - k) + *(arr + i));
-		printf("Debug values: i - %lu | k - %lu | sum - %d | (i-k) - %lu\n", i, k, max_window_sum->sum, i-k);
-	}
-	printf("\nFinal sum: %d | Final window: ", max_window_sum->sum);
+	// first we get the sum of the first window
 	for (size_t i = 0; i < k; i++) {
-		if (i == 0) {
-			printf("[%d,", max_window_sum->arr[i]);  
-		} else if (i != k - 1 && i != 0) {
-			printf("%d,", max_window_sum->arr[i]);
-		} else {
-			printf("%d]\n\n", max_window_sum->arr[i]);
+		sum += arr[i];
+	}
+	printf("Initial sum: %lld\n", sum);
+	long long best = sum;
+	size_t best_start = 0;
+
+	// now we apply the sliding window
+	for (size_t i = k; i < size; i++) {
+		sum = sum - arr[i - k] + arr[i];
+
+		if (sum > best) {
+			best = sum;
+			best_start = i - k + 1;
 		}
 	}
 
-
-	free(max_window_sum);
+	printf("Final maximum sum: %lld\n", best);
+	printf("Maximum window sum: [");
+	for (size_t i = 0; i < k; i++) {
+		printf(
+			"%d%s", 
+			arr[best_start + i], 
+			i + 1 < k ? ", " : ""
+		);
+	}
+	printf("]\n");
 	return;
 }
-
