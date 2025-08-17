@@ -30,7 +30,7 @@ void get_max_window_sum(const int *arr, size_t size, size_t k) {
 
 	// good practice to avoid overflow in big sums
 	long long sum = 0;
-	
+
 	// first we get the sum of the first window
 	for (size_t i = 0; i < k; i++) {
 		sum += arr[i];
@@ -40,7 +40,11 @@ void get_max_window_sum(const int *arr, size_t size, size_t k) {
 	size_t best_start = 0;
 
 	// now we apply the sliding window
+  // Sum: 2 -> [1, 3, -2, 5, 3, -1] | k = 3
 	for (size_t i = k; i < size; i++) {
+    // 2 = 2 - 1 + 5 = 6
+    // 4 | 6 = 6 - 3 + 3 = 6
+    // 5 | 6 = 6 - (-2) + -1 = 7
 		sum = sum - arr[i - k] + arr[i];
 
 		if (sum > best) {
@@ -53,8 +57,8 @@ void get_max_window_sum(const int *arr, size_t size, size_t k) {
 	printf("Maximum window sum: [");
 	for (size_t i = 0; i < k; i++) {
 		printf(
-			"%d%s", 
-			arr[best_start + i], 
+			"%d%s",
+			arr[best_start + i],
 			i + 1 < k ? ", " : ""
 		);
 	}

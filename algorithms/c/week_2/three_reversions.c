@@ -76,12 +76,15 @@ void rotate_right(int *arr, size_t size, size_t k) {
   if (k > size) k %= size;
 
   // first we fully reverse the array - first reversion
+  // [1, 2, 3, 4, 5, 6, 7] -> [7, 6, 5, 4, 3, 2, 1] | k = 2
   reverse(arr, 0, size - 1);
 
   // then we reverse only the first k elements - second reversion
+  // [7, 6, 5, 4, 3, 2, 1] -> [6, 7, 5, 4, 3, 2, 1]
   reverse(arr, 0, k - 1);
 
   // finally we reverse the last elements - third reversion
+  // [6, 7, 5, 4, 3, 2, 1] -> [6, 7, 1, 2, 3, 4, 5]
   reverse(arr, k, size - 1);
 
   print_arr(arr, size);
